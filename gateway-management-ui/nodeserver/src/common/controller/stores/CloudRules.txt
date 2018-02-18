@@ -1,0 +1,1 @@
+{"0x0406-0x0000.0x000B57FFFE1B2D31-1":[{"inDeviceEndpoint":{"eui64":"0x000B57FFFE1B2D31","endpoint":1,"clusterId":"0x0406"},"outDeviceEndpoint":{"eui64":"0x000B57FFFE0978C7","endpoint":1,"clusterId":"0x0006"},"ruleType":"SIMPLE_BIND"}]}

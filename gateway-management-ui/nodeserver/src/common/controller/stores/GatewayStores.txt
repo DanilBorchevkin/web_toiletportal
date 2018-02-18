@@ -1,0 +1,1 @@
+{"":{"gatewayEui":"","pan":"CB4D","chan":"14","pow":"-2","netstat":true,"networkPanId":"0x076C","radioTxPower":20,"radioChannel":20,"networkSecurityLevel":"Z3"},"0022A3000009B7AA":{"gatewayEui":"0022A3000009B7AA","pan":"6D02","chan":"14","pow":"-2","netstat":true,"networkPanId":"0x2DAE","radioTxPower":20,"radioChannel":14,"networkSecurityLevel":"Z3"}}

@@ -1,0 +1,71 @@
+zigbee Z3 Gateway Release Notes
+
+2.4.0
+-----
+
+The silabs-zigbee-gateway-2.4.0 and silabs-networking-2.0.0 have been updated
+to work with Raspbian Stretch Lite versions. They have been tested on recent 
+Stretch Lite version 2017-11-29-raspbian-stretch-lite.img. Below shows the
+key installation instructions:
+
+$ sudo apt-get install dirmngr
+$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 90CE4F77
+$ sudo chmod 666 /etc/apt/sources.list
+$ sudo echo deb http://devtools.silabs.com/solutions/apt stretch main >> /etc/apt/sources.list
+$ sudo apt-get update
+$ sudo apt-get install silabs-zigbee-gateway
+$ sudo apt-get install silabs-networking
+$ sudo reboot
+
+This release tracks with the zigbee stack version 6.1.0 and addresses features
+and errata not included in the zigbee gateway release notes, UG129.
+
+Compared with the Z3GatewayHost sample application found in the zigbee stack
+version 6.1.0. Additional plugins need to be added in AppBuilder for generation
+in order to build the gateway reference design with gateway MQTT and/or CoAP
+messages relaying.
+
+Common plugins:
+1. appPlugin:device-table,true
+2. appPlugin:command-relay,true
+
+MQTT specific plugins:
+1. appPlugin:cjson,true
+2. appPlugin:paho.mqtt.c,true
+3. appPlugin:transport-mqtt,true
+4. appPlugin:gateway-relay-mqtt,true
+
+CoAP specific plugins:
+1. appPlugin:libcoap,true
+2. appPlugin:coap-server,true
+3. appPlugin:gateway-relay-coap,true
+
+Three plugin default settings are changed:
+1. EMBER_AF_PLUGIN_NETWORK_CREATOR_SECURITY_ALLOW_HA_DEVICES_TO_STAY,false
+2. EMBER_AF_PLUGIN_NETWORK_CREATOR_SECURITY_NETWORK_OPEN_TIME_S,120
+3. EMBER_TRANSIENT_KEY_TIMEOUT_S,120
+
+Errata
+
+2166 - CoAP specific plugins recent changes in zigbee stack version 6.1.0 have
+caused Z3Gateway app crashed when devices joining and reading attributes. So
+CoAP plugins have been removed from the Gateway 2.4.0 Debian package release.
+
+2165 - The default setting of 120 seconds timeouts of below plugins do not
+conform with Zigbee 3.0 harness test. They have been patched to 180 seconds
+in the Gateway 2.4.0 Debian package release to pass the harness test.
+1. EMBER_AF_PLUGIN_NETWORK_CREATOR_SECURITY_NETWORK_OPEN_TIME_S
+2. EMBER_TRANSIENT_KEY_TIMEOUT_S
+
+1713 - Gateway 2.4.0 included prebult 6.1.0 NCP images which prevent Zigbee 3.0 
+devices joining the Zigbee network using install code only with wildcard EUIs.
+But joining devices using install code only with corresponding device EUI is 
+still fine.
+
+1413 - When multiple devices (>20) are trying to join Z3 network at the same
+time, the coordinator stops accepting new devices after about 6 devices have
+been joined. Closing and reopening the network will allow further devices
+to join again. Gateway 2.3 has implemented this workaround in the NodeServer.
+There isn't a graceful way in current stack to limit the number of devices
+that can simultaneously join a network when the trust center is running out
+of resources.
